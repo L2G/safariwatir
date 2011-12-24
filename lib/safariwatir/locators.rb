@@ -18,10 +18,6 @@ module Locators
     locator_by_method("value")
   end
 
-  def locator_by_src
-    locator_by_attribute("src")
-  end
-
   def locator_by_alt
     locator_by_attribute("alt")
   end
@@ -60,7 +56,7 @@ module Locators
   end
 
   def locator_by_index
-    "findByTagNames(#{parent.locator}, #{tag_names})[#{what.to_i - 1}]"
+    "findByTagNames(#{parent.locator}, #{tag_names})[#{what.to_i}]"
   end
 
   def locator_by_class
