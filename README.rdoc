@@ -1,5 +1,5 @@
 "There's something eerily tingly about seeing a browser run by itself."
-http://twitter.com/swombat/status/1280692921
+--{@swombat}[http://twitter.com/swombat/status/1280692921]
 
 = SafariWatir
 
@@ -8,17 +8,19 @@ http://twitter.com/swombat/status/1280692921
 * http://wiki.openqa.org/display/WTR/SafariWatir
 * http://twitter.com/SafariWatir
 
-== DESCRIPTION:
+== Description
 
-We are putting Watir on Safari.
-The original Watir (Web Application Testing in Ruby) project supports only IE on Windows.
-This project aims at adding Watir support for Safari on the Mac.
+SafariWatir is designed to be API-compatible with Watir (Web Application
+Testing In Ruby) version 2.  The main Watir project only has direct support for
+Microsoft Internet Explorer.  SafariWatir provides Watir support for Safari on
+Mac OS X, the ultimate goal being to allow Watir-based scripts to run with no
+modification (save for <tt>require 'safariwatir'</tt>).
 
 == Requirements
 
 Mac OS X running Safari. Some features require you to turn on "Enable access for assistive devices" in System Preferences > Universal Access.
 
-== SYNOPSIS:
+== Synopsis
 
   require 'rubygems'
   require 'safariwatir'
@@ -29,25 +31,25 @@ Mac OS X running Safari. Some features require you to turn on "Enable access for
   browser.button(:name, "btnI").click
   puts "FAILURE" unless browser.contains_text("software")
 
-== INSTALL:
+== Install
 
   [sudo] gem install safariwatir
 
- or
+or
 
   git clone git://github.com/redsquirrel/safariwatir.git
   cd safariwatir
   git submodule update --init
   rake install
 
-== RUNNING SAFARIWATIR AGAINST WATIRSPEC
+== Running SafariWatir Against WatirSpec
 
   git clone git://github.com/redsquirrel/safariwatir.git
   cd safariwatir
   git submodule update --init
   rspec spec
 
-== CONTRIBUTING:
+== Contributing
 
 WatirSpec is the emergent standard for the Watir API.
 We do not currently support all of the functionality described by WatirSpec.
