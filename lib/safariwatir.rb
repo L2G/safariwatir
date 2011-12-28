@@ -925,7 +925,7 @@ module Watir
 
     def child_tag_list(&child_tag_blk)
         values = ElementCollection.new
-        index = 1
+        index = 0
         loop do
           child_tag = child_tag_blk.call(index)
           break unless child_tag.exists?
