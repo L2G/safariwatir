@@ -11,7 +11,7 @@ module Watir
   class ElementCollection < Array
 
     def [](idx)
-      super(idx - 1)
+      super(idx)
     end
 
   end

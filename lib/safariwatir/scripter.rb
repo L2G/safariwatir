@@ -182,9 +182,9 @@ if (element) {
       when :index
         case cell.row.table.how
         when :id
-          %|getElementById('#{cell.row.table.what}').rows[#{cell.row.what-1}]|
+          %|getElementById('#{cell.row.table.what}').rows[#{cell.row.what}]|
         when :index
-          %|getElementsByTagName('TABLE')[#{cell.row.table.what-1}].rows[#{cell.row.what-1}]|
+          %|getElementsByTagName('TABLE')[#{cell.row.table.what}].rows[#{cell.row.what}]|
         else
           raise MissingWayOfFindingObjectException, "Table element does not support #{cell.row.table.how}"
         end
@@ -192,7 +192,7 @@ if (element) {
         raise MissingWayOfFindingObjectException, "TableRow element does not support #{cell.row.how}"
       end
       
-      finder + %|.cells[#{cell.what-1}]|
+      finder + %|.cells[#{cell.what}]|
     end
   end
 
@@ -495,7 +495,7 @@ $(element).trigger('click');
     def find_link(element)
       case element.how
       when :index
-%|var element = document.getElementsByTagName('A')[#{element.what-1}];|
+%|var element = document.getElementsByTagName('A')[#{element.what}];|
       else
 %|var element = undefined;
 for (var i = 0; i < document.links.length; i++) {

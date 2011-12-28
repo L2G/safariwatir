@@ -97,7 +97,7 @@ module InputLocators
   end
 
   def locator_by_index
-    "findInputsByType(#{parent.locator}, \"#{input_type}\")[#{what.to_i - 1}]"
+    "findInputsByType(#{parent.locator}, \"#{input_type}\")[#{what.to_i}]"
   end
 
 end
@@ -106,7 +106,7 @@ module ButtonLocators
   include Locators
 
   def locator_by_index
-    "findAllMatching(#{parent.locator}, new ButtonMatcher())[#{what.to_i - 1}]"
+    "findAllMatching(#{parent.locator}, new ButtonMatcher())[#{what.to_i}]"
   end
 
   def locator_by_attribute(attribute_name)
