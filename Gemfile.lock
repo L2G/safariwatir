@@ -46,7 +46,6 @@ PLATFORMS
 
 DEPENDENCIES
   echoe
-  rb-appscript
   rspec
   safariwatir!
   sinatra

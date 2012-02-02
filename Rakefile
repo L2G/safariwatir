@@ -9,6 +9,6 @@ Echoe.new('safariwatir', '0.4.a1') do | config |
   config.author = ['Dave Hoover', 'Lawrence Leonard Gilbert']
   config.email = 'dave@obtiva.com'
   config.ignore_pattern = ['tmp/*', 'script/*', 'spec/**/**', '*.html']
-  config.development_dependencies = ["rb-appscript"]
   config.runtime_dependencies = ["rb-appscript"]
+  config.development_dependencies = ["echoe", "rspec", "sinatra"]
 end
