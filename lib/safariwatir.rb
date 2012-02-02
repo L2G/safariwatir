@@ -3,6 +3,8 @@ require 'safariwatir/scripter'
 require 'safariwatir/core_ext'
 require 'safariwatir/element_attributes'
 require 'safariwatir/locators'
+require 'safariwatir/html_element'
+require 'safariwatir/input_elements'
 require 'forwardable'
 
 module Watir
@@ -53,14 +55,6 @@ module Watir
       end
     end
 
-    module Clickable
-      def click
-        @scripter.highlight(self) do
-          click_element
-        end
-      end    
-    end
-
     class AlertWindow
       def_init :scripter
       
@@ -93,84 +87,6 @@ module Watir
           @scripter.click_security_warning(button)
         end
       end
-    end
-
-    class HtmlElement
-      def_init :parent, :scripter, :how, :what
-      attr_reader :how, :what, :parent
-
-      include Locators
-
-      # required by watir specs
-      extend ElementAttributes
-      html_attr_reader :class_name, "class"
-      html_attr_reader :id
-      html_attr_reader :name
-      html_attr_reader :title
-      html_attr_reader :src
-      html_attr_reader :alt
-      html_method_reader :value
-
-      def type; nil; end
-
-      def is_frame?; false; end
-
-      # overridden in derivitives
-      def tag
-        raise RuntimeError, "tag not provided for #{element_name}"
-      end
-
-      # overridden in derivitives
-      def speak
-        @scripter.speak("#{element_name}'s don't know how to speak.")
-      end
-
-      def exists?
-        unless [Fixnum, String, Regexp].any? { |allowed_class| what.kind_of?(allowed_class) }
-          raise TypeError.new("May not search using a 'what' value of class #{what.class.name}")
-        end
-        @scripter.element_exists?(self)
-      end
-      alias :exist? :exists?
-      
-      def element_name
-        self.class.name.split("::").last
-      end
-
-      def html_method name
-        @scripter.get_method_value(name, self)
-      end
-
-      def attr name
-        @scripter.get_attribute(name, self)
-      end
-
-      def operate(&block)
-        @scripter.operate_by_locator(self, &block)
-      end
-
-      OPERATIONS = {
-        :id => "by_id",
-        :alt => "by_alt",
-        :action => "by_action",
-        :index => "by_index",
-        :class => "by_class",
-        :name => "by_name",
-        :text => { "Link" => "on_link",
-                   "Label" => "by_text",
-                   "Span"  => "by_text" },
-        :url => "on_link",
-        :value => "by_input_value",
-        :caption => "by_input_value",
-        :src => "by_src",
-        :title => "by_title",
-        :xpath => "by_xpath",
-      }
-
-      def flash
-        10.times {@scripter.highlight(self) {sleep 0.05} }
-      end
-
     end
 
     
@@ -216,29 +132,6 @@ module Watir
       def tag; "FORM"; end
     end
     
-    class InputElement < HtmlElement
-      include Clickable
-      
-      html_attr_reader :type
-
-      def speak
-        @scripter.speak_value_of(self)
-      end
-      
-      def enabled?
-        !@scripter.element_disabled?(self)
-      end
-      
-      def disabled?
-        @scripter.element_disabled?(self)
-      end
-
-      def tag; "INPUT"; end
-
-      # Hook for derivitives
-      def by_value; end
-    end
-    
     class ContentElement < HtmlElement
       include Clickable
       include Container
@@ -278,34 +171,6 @@ module Watir
       def tag; "IMG"; end
     end
     
-    class Button < InputElement
-      def tag; ["INPUT", "BUTTON"]; end
-      include ButtonLocators
-    end
-        
-    class Checkbox < InputElement
-      def_init :parent, :scripter, :how, :what, :value
-      
-      include InputLocators
-
-      def input_type; "checkbox"; end
-
-      def by_value
-        @value
-      end
-
-      # Contributed by Kyle Campos
-      def checked?
-        @scripter.checkbox_is_checked?(self)
-      end
-      
-      def set(check_it = true)
-        return if check_it && checked?
-        return if !check_it && !checked?
-        click
-      end
-    end
-
     class Header < ContentElement
       
       def initialize(parent, scripter, how, what, h_size = 1)
@@ -373,70 +238,6 @@ module Watir
       end
 
       def tag; "A"; end
-    end
-
-    class Radio < Checkbox
-      def input_type; "radio"; end
-    end
-
-    class SelectList < InputElement
-      def select(label)
-        option(:text, label).select
-      end
-      
-      def select_value(value)
-        option(:value, value).select
-      end
-      
-      def option(how, what)
-        Option.new(@scripter, self, how, what)
-      end
-
-      def selected_values
-        values = []
-        index = 1
-        loop do
-          option = option(:index, index)
-          break unless option.exists?
-          values << option if option.selected?
-          index += 1
-        end
-        values.map {|o| o.text } #TODO?
-      end
-
-      alias :selected_options :selected_values
-
-      def selected_value
-        selected_values.first
-      end
-      
-      def speak
-        @scripter.speak_options_for(self)
-      end
-      
-      def tag; "SELECT"; end
-    end
-
-    class Option < InputElement
-      def_init :scripter, :select_list, :how, :what
-      def parent; @select_list; end
-
-      def selected?
-        selected_value = html_method(:selected) ? html_method(:selected) : ""
-        selected_value != ""
-      end
-
-      def select
-        @scripter.highlight(self) do
-          select_option
-        end
-      end
-      
-      def text
-        @scripter.get_text_for(self)
-      end
-
-      def tag; "OPTION"; end
     end
 
     class Span < ContentElement
@@ -518,75 +319,6 @@ module Watir
       end
 
       def tag; "TD"; end
-    end
-
-    class TextField < InputElement
-      include InputLocators
-      def input_type; "text"; end
-
-      def set(value)
-        value = value.to_s
-        @scripter.focus(self)
-        @scripter.highlight(self) do
-          clear_text_input
-          value.length.times do |i|
-            append_text_input(value[i, 1])
-          end
-        end
-        @scripter.blur(self)
-      end
-      
-      def getContents
-        @scripter.get_value_for(self)
-      end
-
-      alias :value :getContents
-      
-      def verify_contains(expected)
-        actual = getContents
-        case expected
-        when Regexp
-          actual.match(expected) != nil
-        else
-          expected == actual
-        end
-      end
-    end
-    
-    class TextArea < TextField
-      def tag; ["input", "textarea"]; end
-    end
-
-    class TextArea2 < InputElement
-      def tag; ["textarea"]; end
-
-      def set(value)
-        value = value.to_s
-        @scripter.focus(self)
-        @scripter.highlight(self) do
-          clear_text_input
-          value.length.times do |i|
-            append_text_input(value[i, 1])
-          end
-        end
-        @scripter.blur(self)
-      end
-
-      def getContents
-        @scripter.get_value_for(self)
-      end
-
-      alias :value :getContents
-
-      def verify_contains(expected)
-        actual = getContents
-        case expected
-        when Regexp
-          actual.match(expected) != nil
-        else
-          expected == actual
-        end
-      end
     end
 
     class FileField < TextField
