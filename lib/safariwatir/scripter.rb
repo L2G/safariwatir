@@ -670,7 +670,7 @@ SCRIPT`
         when FRAME_NOT_FOUND
           raise UnknownFrameException, "Unable to locate a frame with name #{element.element_name}"
         else
-          response
+          response == :missing_value ? "" : response
       end
     end
 
