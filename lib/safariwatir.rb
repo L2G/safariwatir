@@ -252,6 +252,14 @@ module Watir
       def tag; "MAP"; end
     end
 
+    class Del < ContentElement
+      def tag; "DEL"; end
+    end
+
+    class Ins < ContentElement
+      def tag; "INS"; end
+    end
+
     class Table < ContentElement
       def_init :parent, :scripter, :how, :what
       attr_reader :parent, :how, :what
@@ -395,6 +403,16 @@ module Watir
       end
     end
 
+    def del(how, what)
+      Del.new(self, scripter, how, what)
+    end
+
+    def dels
+      child_tag_list do |idx|
+        Del.new(self, scripter, :index, idx)
+      end
+    end
+
     def div(how, what)
       Div.new(self, scripter, how, what)
     end
@@ -432,6 +450,16 @@ module Watir
     def ems
       child_tag_list do |idx|
         Em.new(self, scripter, :index, idx)
+      end
+    end
+
+    def ins(how, what)
+      Ins.new(self, scripter, how, what)
+    end
+
+    def inses
+      child_tag_list do |idx|
+        Ins.new(self, scripter, :index, idx)
       end
     end
 
