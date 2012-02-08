@@ -157,7 +157,7 @@ module Watir
     end
   end
 
-  class Checkbox < InputElement
+  class CheckBox < InputElement
     def_init :parent, :scripter, :how, :what, :value
     
     include InputLocators
@@ -180,7 +180,7 @@ module Watir
     end
   end
 
-  class Radio < Checkbox
+  class Radio < CheckBox
     def input_type; "radio"; end
   end
 

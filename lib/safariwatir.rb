@@ -384,12 +384,12 @@ module Watir
     end
 
     def checkbox(how, what, value = nil)
-      Checkbox.new(self, scripter, how, what, value)
+      CheckBox.new(self, scripter, how, what, value)
     end
 
     def checkboxes
       child_tag_list do |idx|
-        Checkbox.new(self, scripter, :index, idx, nil)
+        CheckBox.new(self, scripter, :index, idx, nil)
       end
     end
 
