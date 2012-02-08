@@ -32,7 +32,7 @@ module Watir
       option(:value, value).select
     end
     
-    def option(how, what)
+    def option(how = nil, what = nil)
       Option.new(@scripter, self, how, what)
     end
 

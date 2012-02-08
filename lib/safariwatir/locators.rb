@@ -59,6 +59,12 @@ module Locators
     "findByTagNames(#{parent.locator}, #{tag_names})[#{what.to_i}]"
   end
 
+  # When no "how" or "what" is given, the default behavior is to locate the
+  # first item; i.e., act like :index => 0
+  def locator_by_default
+    "findByTagNames(#{parent.locator}, #{tag_names})[0]"
+  end
+
   def locator_by_class
     locator_by_attribute("class")
   end

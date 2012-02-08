@@ -173,7 +173,7 @@ module Watir
     
     class Header < ContentElement
       
-      def initialize(parent, scripter, how, what, h_size = 1)
+      def initialize(parent, scripter, how = nil, what = nil, h_size = 1)
         super(parent, scripter, how, what)
         @size = 1
       end
@@ -284,7 +284,7 @@ module Watir
     end
     
     class TableRow < ContentElement
-      def initialize(scripter, how, what, table = nil)
+      def initialize(scripter, how = :default, what = nil, table = nil)
         @scripter = scripter
         @how = how
         @what = what
@@ -311,7 +311,7 @@ module Watir
     end
     
     class TableCell < ContentElement
-      def initialize(scripter, how, what, row = nil)
+      def initialize(scripter, how = :default, what = nil, row = nil)
         @scripter = scripter.for_table(self)
         set_slow_speed # TODO: Need to inherit this somehow
 
@@ -359,7 +359,7 @@ module Watir
 
     # Elements
 
-    def area(how, what)
+    def area(how = nil, what = nil)
       Area.new(self, scripter, how, what)
     end
     
@@ -369,7 +369,7 @@ module Watir
       end
     end
 
-    def button(how, what)
+    def button(how = nil, what = nil)
       Button.new(self, scripter, how, what)
     end
 
@@ -379,11 +379,11 @@ module Watir
       end
     end
 
-    def cell(how, what)
+    def cell(how = nil, what = nil)
       TableCell.new(self, scripter, how, what)
     end
 
-    def checkbox(how, what, value = nil)
+    def checkbox(how = nil, what = nil, value = nil)
       CheckBox.new(self, scripter, how, what, value)
     end
 
@@ -393,7 +393,7 @@ module Watir
       end
     end
 
-    def dd(how, what)
+    def dd(how = nil, what = nil)
       Dd.new(self, scripter, how, what)
     end
 
@@ -403,7 +403,7 @@ module Watir
       end
     end
 
-    def del(how, what)
+    def del(how = nil, what = nil)
       Del.new(self, scripter, how, what)
     end
 
@@ -413,7 +413,7 @@ module Watir
       end
     end
 
-    def div(how, what)
+    def div(how = nil, what = nil)
       Div.new(self, scripter, how, what)
     end
     
@@ -423,7 +423,7 @@ module Watir
       end
     end
 
-    def dl(how, what)
+    def dl(how = nil, what = nil)
       Dl.new(self, scripter, how, what)
     end
 
@@ -433,7 +433,7 @@ module Watir
       end
     end
 
-    def dt(how, what)
+    def dt(how = nil, what = nil)
       Dt.new(self, scripter, how, what)
     end
 
@@ -443,7 +443,7 @@ module Watir
       end
     end
 
-    def em(how, what)
+    def em(how = nil, what = nil)
       Em.new(self, scripter, how, what)
     end
 
@@ -453,7 +453,7 @@ module Watir
       end
     end
 
-    def ins(how, what)
+    def ins(how = nil, what = nil)
       Ins.new(self, scripter, how, what)
     end
 
@@ -463,7 +463,7 @@ module Watir
       end
     end
 
-    def p(how, what)
+    def p(how = nil, what = nil)
       P.new(self, scripter, how, what)
     end
 
@@ -473,7 +473,7 @@ module Watir
       end
     end
 
-    def pre(how, what)
+    def pre(how = nil, what = nil)
       Pre.new(self, scripter, how, what)
     end
 
@@ -483,7 +483,7 @@ module Watir
       end
     end
 
-    def form(how, what)
+    def form(how = nil, what = nil)
       Form.new(self, scripter, how, what)
     end
 
@@ -493,35 +493,35 @@ module Watir
       end
     end
 
-    def frame(how, what)
+    def frame(how = nil, what = nil)
       Frame.new(self, scripter, how, what)
     end
     
-    def h1(how, what)
+    def h1(how = nil, what = nil)
       Header.new(self, scripter, how, what, 1)
     end
 
-    def h2(how, what)
+    def h2(how = nil, what = nil)
       Header.new(self, scripter, how, what, 2)
     end
 
-    def h3(how, what)
+    def h3(how = nil, what = nil)
       Header.new(self, scripter, how, what, 3)
     end
 
-    def h4(how, what)
+    def h4(how = nil, what = nil)
       Header.new(self, scripter, how, what, 4)
     end
 
-    def h5(how, what)
+    def h5(how = nil, what = nil)
       Header.new(self, scripter, how, what, 5)
     end
 
-    def h6(how, what)
+    def h6(how = nil, what = nil)
       Header.new(self, scripter, how, what, 6)
     end
 
-    def image(how, what)
+    def image(how = nil, what = nil)
       Image.new(self, scripter, how, what)
     end
 
@@ -531,7 +531,7 @@ module Watir
       end
     end
 
-    def label(how, what)
+    def label(how = nil, what = nil)
       Label.new(self, scripter, how, what)
     end
 
@@ -541,7 +541,7 @@ module Watir
       end
     end
 
-    def li(how, what)
+    def li(how = nil, what = nil)
       Li.new(self, scripter, how, what)
     end
     
@@ -551,7 +551,7 @@ module Watir
       end
     end
 
-    def link(how, what)
+    def link(how = nil, what = nil)
       Link.new(self, scripter, how, what)
     end
 
@@ -561,7 +561,7 @@ module Watir
       end
     end
 
-    def map(how, what)
+    def map(how = nil, what = nil)
       Map.new(self, scripter, how, what)
     end
 
@@ -571,7 +571,7 @@ module Watir
       end
     end
 
-    def password(how, what)
+    def password(how = nil, what = nil)
       Password.new(self, scripter, how, what)
     end
 
@@ -581,11 +581,11 @@ module Watir
       end
     end
 
-    def radio(how, what, value = nil)
+    def radio(how = nil, what = nil, value = nil)
       Radio.new(self, scripter, how, what, value)
     end
 
-    def row(how, what)
+    def row(how = nil, what = nil)
       TableRow.new(self, scripter, how, what)
     end
 
@@ -595,7 +595,7 @@ module Watir
       end
     end
 
-    def select_list(how, what)
+    def select_list(how = nil, what = nil)
       SelectList.new(self, scripter, how, what)
     end
 
@@ -605,7 +605,7 @@ module Watir
       end
     end
     
-    def span(how, what)
+    def span(how = nil, what = nil)
       Span.new(self, scripter, how, what)
     end
 
@@ -615,7 +615,7 @@ module Watir
       end
     end
 
-    def strong(how, what)
+    def strong(how = nil, what = nil)
       Strong.new(self, scripter, how, what)
     end
 
@@ -625,7 +625,7 @@ module Watir
       end
     end
 
-    def table(how, what)
+    def table(how = nil, what = nil)
       Table.new(self, scripter, how, what)
     end
     
@@ -635,7 +635,7 @@ module Watir
       end
     end
 
-    def text_field(how, what)
+    def text_field(how = nil, what = nil)
       TextField.new(self, scripter, how, what)
     end
     
@@ -645,15 +645,15 @@ module Watir
       end
     end
 
-    def text_area(how, what)
+    def text_area(how = nil, what = nil)
       TextArea.new(self, scripter, how, what)
     end
 
-    def text_area2(how, what)
+    def text_area2(how = nil, what = nil)
       TextArea.new(self, scripter, how, what)
     end
 
-    def file_field(how, what)
+    def file_field(how = nil, what = nil)
       FileField.new(self, scripter, how, what)
     end
 
@@ -663,7 +663,7 @@ module Watir
       end
     end
 
-    def ol(how, what)
+    def ol(how = nil, what = nil)
       Ol.new(self, scripter, how, what)
     end
 
@@ -673,7 +673,7 @@ module Watir
       end
     end
 
-    def ul(how, what)
+    def ul(how = nil, what = nil)
       Ul.new(self, scripter, how, what)
     end
 
